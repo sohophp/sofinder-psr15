@@ -45,6 +45,7 @@ function i({ api: e, resource: t, entry: i, labels: a }) {
 			className: "sf-document-preview",
 			src: o.previewUrl,
 			title: i.name,
+			referrerPolicy: "no-referrer",
 			onLoad: () => h(!0)
 		}), !m && /* @__PURE__ */ (0, r.jsx)("div", {
 			className: "sf-document-preview-progress",

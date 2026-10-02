@@ -1,4 +1,4 @@
-import { t as e } from "./defineProperty-B_lfzbVN.js";
+import { t as e } from "./defineProperty-Crj45lTn.js";
 import { SoFinderSdkError as t, createSoFinderClient as n } from "./sofinder-sdk.js";
 //#region src/assetPresentation.ts
 var r = (e, t) => {

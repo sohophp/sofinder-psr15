@@ -1,5 +1,5 @@
 import { t as e } from "./jsx-runtime-CmCsaYvT.js";
-import { t } from "./UiIcon-JdLj8VHV.js";
+import { t } from "./UiIcon-CyBzESIM.js";
 //#region src/components/RecentPage.tsx
 var n = e();
 function r({ items: e, search: r, locale: i, labels: a, onOpen: o }) {

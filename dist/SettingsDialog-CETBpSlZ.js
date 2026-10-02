@@ -1,6 +1,6 @@
 import { t as e } from "./jsx-runtime-CmCsaYvT.js";
 import { t } from "./react-B5TC723I.js";
-import { t as n } from "./Modal-ClPLM5jI.js";
+import { t as n } from "./Modal-DhcERqG6.js";
 //#region src/components/PreferenceProfiles.tsx
 var r = t(), i = e(), a = "sofinder.preferenceProfiles.v1", o = 10, s = {
 	en: {
@@ -417,6 +417,11 @@ function p({ resource: e, tools: t, features: r, columns: a, viewSizes: o, folde
 							onChange: () => x(e)
 						}), /* @__PURE__ */ (0, i.jsx)("span", { children: w(e === "ask" ? "uploadConflictAsk" : e === "rename" ? "uploadConflictRename" : e === "overwrite" ? "uploadConflictOverwrite" : "uploadConflictSkip") })] }, e))
 					}),
+					d === "overwrite" && /* @__PURE__ */ (0, i.jsx)("p", {
+						className: "sf-warning",
+						role: "status",
+						children: w("persistentOverwriteWarning")
+					}),
 					/* @__PURE__ */ (0, i.jsx)("h3", { children: w("optionalTools") }),
 					l.batchRename !== !1 && /* @__PURE__ */ (0, i.jsxs)("label", {
 						className: "sf-setting",
@@ -475,8 +480,7 @@ function p({ resource: e, tools: t, features: r, columns: a, viewSizes: o, folde
 						"favorites",
 						"tags",
 						"archive",
-						"trash",
-						"qrCode"
+						"trash"
 					].filter((e) => e === "autoCollapseUploads" || l[e] !== !1).map((t) => /* @__PURE__ */ (0, i.jsxs)("label", {
 						className: "sf-setting",
 						children: [/* @__PURE__ */ (0, i.jsx)("input", {
@@ -484,7 +488,7 @@ function p({ resource: e, tools: t, features: r, columns: a, viewSizes: o, folde
 							checked: r[t],
 							disabled: t === "trash" && e?.storageCapabilities?.recoverableDelete === !1,
 							onChange: (e) => h(t, e.target.checked)
-						}), /* @__PURE__ */ (0, i.jsx)("span", { children: w(t === "folderTree" ? "folderTreeFeature" : t === "favorites" ? "favoriteFeature" : t === "archive" ? "archiveFeature" : t === "trash" ? "trashFeature" : t === "tags" ? "tagsFeature" : t === "recent" ? "recentFeature" : t === "qrCode" ? "qrCodeFeature" : "autoCollapseUploads") })]
+						}), /* @__PURE__ */ (0, i.jsx)("span", { children: w(t === "folderTree" ? "folderTreeFeature" : t === "favorites" ? "favoriteFeature" : t === "archive" ? "archiveFeature" : t === "trash" ? "trashFeature" : t === "tags" ? "tagsFeature" : t === "recent" ? "recentFeature" : "autoCollapseUploads") })]
 					}, t)),
 					r.folderTree && l.folderTree !== !1 && /* @__PURE__ */ (0, i.jsxs)(i.Fragment, { children: [/* @__PURE__ */ (0, i.jsx)("h3", { children: w("folderNavigationPosition") }), /* @__PURE__ */ (0, i.jsx)("div", {
 						className: "sf-scale-options",

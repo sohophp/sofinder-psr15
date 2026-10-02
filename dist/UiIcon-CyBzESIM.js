@@ -1,6 +1,7 @@
 import { t as e } from "./jsx-runtime-CmCsaYvT.js";
 //#region src/components/UiIcon.tsx
 var t = e(), n = {
+	notifications: /* @__PURE__ */ (0, t.jsxs)(t.Fragment, { children: [/* @__PURE__ */ (0, t.jsx)("path", { d: "M6 9a6 6 0 0 1 12 0c0 7 3 7 3 9H3c0-2 3-2 3-9" }), /* @__PURE__ */ (0, t.jsx)("path", { d: "M10 21h4" })] }),
 	file: /* @__PURE__ */ (0, t.jsxs)(t.Fragment, { children: [/* @__PURE__ */ (0, t.jsx)("path", { d: "M6 3h8l4 4v14H6z" }), /* @__PURE__ */ (0, t.jsx)("path", { d: "M14 3v5h5" })] }),
 	folder: /* @__PURE__ */ (0, t.jsx)("path", { d: "M3 6.5h6l2 2h10v10.5H3z" }),
 	pin: /* @__PURE__ */ (0, t.jsxs)(t.Fragment, { children: [/* @__PURE__ */ (0, t.jsx)("path", { d: "m9 4 6 6M8 9l7-4 4 4-4 7-3-3-6 6" }), /* @__PURE__ */ (0, t.jsx)("path", { d: "m6 18-2 2" })] }),

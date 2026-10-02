@@ -1,6 +1,6 @@
 import { t as e } from "./jsx-runtime-CmCsaYvT.js";
 import { t } from "./react-B5TC723I.js";
-import { t as n } from "./UiIcon-JdLj8VHV.js";
+import { t as n } from "./UiIcon-CyBzESIM.js";
 //#region src/components/FolderTree.tsx
 var r = t(), i = e();
 function a({ api: e, resource: t, currentPath: a, rootLabel: o, onNavigate: s }) {

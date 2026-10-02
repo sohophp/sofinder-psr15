@@ -1,6 +1,6 @@
 import { n as e, r as t, t as n } from "./jsx-runtime-CmCsaYvT.js";
 import { t as r } from "./react-B5TC723I.js";
-import { t as i } from "./Modal-ClPLM5jI.js";
+import { t as i } from "./Modal-DhcERqG6.js";
 //#region node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/can-promise.js
 var a = /* @__PURE__ */ e(((e, t) => {
 	t.exports = function() {
@@ -1225,7 +1225,7 @@ var a = /* @__PURE__ */ e(((e, t) => {
 		return i.render(e, n);
 	});
 })), N = r(), P = /* @__PURE__ */ t(M(), 1), F = n();
-function I({ url: e, fileName: t, loginRequired: n, expiresAt: r, showQrCode: a, labels: o, formatDate: s, onClose: c }) {
+function I({ url: e, fileName: t, access: n, expiresAt: r, showQrCode: a, labels: o, formatDate: s, onClose: c }) {
 	let l = (0, N.useRef)(null), [u, d] = (0, N.useState)(""), [f, p] = (0, N.useState)(""), [m, h] = (0, N.useState)(!1);
 	(0, N.useEffect)(() => {
 		if (!a) return;
@@ -1290,9 +1290,9 @@ function I({ url: e, fileName: t, loginRequired: n, expiresAt: r, showQrCode: a,
 						"aria-live": "polite",
 						children: u === "copied" ? o.copied : u === "failed" ? o.copyFailed : ""
 					}),
-					(n || r) && /* @__PURE__ */ (0, F.jsxs)("dl", {
+					(n !== "public" || r) && /* @__PURE__ */ (0, F.jsxs)("dl", {
 						className: "sf-share-meta",
-						children: [n && /* @__PURE__ */ (0, F.jsxs)(F.Fragment, { children: [/* @__PURE__ */ (0, F.jsx)("dt", { children: o.loginRequired }), /* @__PURE__ */ (0, F.jsx)("dd", { children: "✓" })] }), r && /* @__PURE__ */ (0, F.jsxs)(F.Fragment, { children: [/* @__PURE__ */ (0, F.jsx)("dt", { children: o.expires }), /* @__PURE__ */ (0, F.jsx)("dd", { children: /* @__PURE__ */ (0, F.jsx)("time", {
+						children: [n !== "public" && /* @__PURE__ */ (0, F.jsxs)(F.Fragment, { children: [/* @__PURE__ */ (0, F.jsx)("dt", { children: n === "login_required" ? o.loginRequired : o.restrictedAccess }), /* @__PURE__ */ (0, F.jsx)("dd", { children: "✓" })] }), r && /* @__PURE__ */ (0, F.jsxs)(F.Fragment, { children: [/* @__PURE__ */ (0, F.jsx)("dt", { children: o.expires }), /* @__PURE__ */ (0, F.jsx)("dd", { children: /* @__PURE__ */ (0, F.jsx)("time", {
 							dateTime: (/* @__PURE__ */ new Date(r * 1e3)).toISOString(),
 							children: s(r)
 						}) })] })]

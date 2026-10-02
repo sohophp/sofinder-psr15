@@ -1,16 +1,16 @@
-import { t as e } from "./defineProperty-B_lfzbVN.js";
+import { n as e, t } from "./defineProperty-Crj45lTn.js";
 //#region src/api.ts
-var t = (e) => /^1(?:\.|$)/.test(e), n = class extends Error {
-	constructor(t, n, r) {
-		super(t), e(this, "code", void 0), e(this, "status", void 0), this.code = n, this.status = r, this.name = "ApiError";
+var n = (e) => /^1(?:\.|$)/.test(e), r = class extends Error {
+	constructor(e, n, r) {
+		super(e), t(this, "code", void 0), t(this, "status", void 0), this.code = n, this.status = r, this.name = "ApiError";
 	}
-}, r = class {
-	constructor(t) {
-		e(this, "config", void 0), e(this, "base", void 0), e(this, "uploadStorageKey", "sofinder.uploadSessions.v1"), this.config = t, this.base = t.apiBase.replace(/\/config$/, "");
+}, i = class {
+	constructor(e) {
+		t(this, "config", void 0), t(this, "base", void 0), t(this, "uploadStorageKey", "sofinder.uploadSessions.v1"), this.config = e, this.base = e.apiBase.replace(/\/config$/, "");
 	}
 	async configData() {
 		let e = await this.request("/config");
-		if (!t(e.apiVersion)) throw new n(`SoFinder UI requires API 1.x; server reported ${e.apiVersion || "an unknown version"}.`, "incompatible_api_version", 426);
+		if (!n(e.apiVersion)) throw new r(`SoFinder UI requires API 1.x; server reported ${e.apiVersion || "an unknown version"}.`, "incompatible_api_version", 426);
 		return e;
 	}
 	securityStatus() {
@@ -89,6 +89,12 @@ var t = (e) => /^1(?:\.|$)/.test(e), n = class extends Error {
 		});
 		return n !== void 0 && i.set("ttl", String(n)), this.request(`/signed-url?${i}`);
 	}
+	shareLink(e, t) {
+		return this.request(`/share-link?${new URLSearchParams({
+			resource: e,
+			path: t
+		})}`);
+	}
 	list(e, t, n = "", r = "name", i = "asc", a = 0, o = 100, s = "name", c = null) {
 		let l = new URLSearchParams({
 			resource: e,
@@ -163,47 +169,47 @@ var t = (e) => /^1(?:\.|$)/.test(e), n = class extends Error {
 			})
 		});
 	}
-	upload(e, t, r, i = {}) {
-		if (r.size > 5e6) return this.chunkUpload(e, t, r, i);
-		let a = new FormData();
-		return a.set("resource", e), a.set("path", t), a.set("upload", r), i.overwrite && a.set("overwrite", "1"), i.autoRename && a.set("autoRename", "1"), new Promise((e, t) => {
-			let r = new XMLHttpRequest(), o = () => r.abort(), s = () => i.signal?.removeEventListener("abort", o);
-			if (r.open("POST", this.base + "/uploads"), r.withCredentials = !0, r.setRequestHeader("Accept", "application/json"), r.setRequestHeader("X-CSRF-TOKEN", this.config.csrfToken), r.upload.addEventListener("progress", (e) => {
-				e.lengthComputable && i.onProgress?.(Math.min(100, Math.round(e.loaded / e.total * 100)));
-			}), r.addEventListener("load", () => {
-				s();
-				let a;
+	upload(t, n, i, a = {}) {
+		if (i.size > 5e6) return this.chunkUpload(t, n, i, a);
+		let o = new FormData();
+		return o.set("resource", t), o.set("path", n), o.set("upload", i), a.overwrite && o.set("overwrite", "1"), a.autoRename && o.set("autoRename", "1"), new Promise((t, n) => {
+			let i = new XMLHttpRequest(), s = () => i.abort(), c = () => a.signal?.removeEventListener("abort", s);
+			if (i.open("POST", this.base + "/uploads"), i.withCredentials = !0, i.setRequestHeader("Accept", "application/json"), i.setRequestHeader("X-CSRF-TOKEN", this.config.csrfToken), i.upload.addEventListener("progress", (e) => {
+				e.lengthComputable && a.onProgress?.(Math.min(100, Math.round(e.loaded / e.total * 100)));
+			}), i.addEventListener("load", () => {
+				c();
+				let o;
 				try {
-					a = JSON.parse(r.responseText);
+					o = JSON.parse(i.responseText);
 				} catch {
-					t(new n(`Request failed (${r.status})`, "invalid_response", r.status));
+					n(new r(e(i.status, i.responseText, i.getResponseHeader("Content-Type") || ""), "invalid_response", i.status));
 					return;
 				}
-				if (r.status < 200 || r.status >= 300 || !a.success || !a.data) {
-					t(new n(a.error?.message || `Request failed (${r.status})`, a.error?.code || "upload_failed", r.status));
+				if (i.status < 200 || i.status >= 300 || !o.success || !o.data) {
+					n(new r(o.error?.message || `Request failed (${i.status})`, o.error?.code || "upload_failed", i.status));
 					return;
 				}
-				i.onProgress?.(100), e(a.data);
-			}), r.addEventListener("error", () => {
-				s(), t(new n("The upload failed because of a network error.", "network_error", 0));
-			}), r.addEventListener("abort", () => {
-				s(), t(new DOMException("The upload was cancelled.", "AbortError"));
-			}), i.signal?.addEventListener("abort", o, { once: !0 }), i.signal?.aborted) {
-				o();
+				a.onProgress?.(100), t(o.data);
+			}), i.addEventListener("error", () => {
+				c(), n(new r("The upload failed because of a network error.", "network_error", 0));
+			}), i.addEventListener("abort", () => {
+				c(), n(new DOMException("The upload was cancelled.", "AbortError"));
+			}), a.signal?.addEventListener("abort", s, { once: !0 }), a.signal?.aborted) {
+				s();
 				return;
 			}
-			r.send(a);
+			i.send(o);
 		});
 	}
-	async chunkUpload(e, t, r, i) {
-		let a = 4e6, o = Math.ceil(r.size / a), s = this.findPendingUpload(e, t, r, !!i.overwrite, !!i.autoRename, o), c = s?.id || crypto.randomUUID(), l = s || {
+	async chunkUpload(e, t, n, i) {
+		let a = 4e6, o = Math.ceil(n.size / a), s = this.findPendingUpload(e, t, n, !!i.overwrite, !!i.autoRename, o), c = s?.id || crypto.randomUUID(), l = s || {
 			id: c,
 			scope: this.base,
 			resource: e,
 			path: t,
-			name: r.name,
-			size: r.size,
-			lastModified: r.lastModified,
+			name: n.name,
+			size: n.size,
+			lastModified: n.lastModified,
 			total: o,
 			overwrite: !!i.overwrite,
 			autoRename: !!i.autoRename,
@@ -228,8 +234,8 @@ var t = (e) => /^1(?:\.|$)/.test(e), n = class extends Error {
 				let e = await this.request(`/uploads/chunks/${encodeURIComponent(c)}`);
 				u = new Set(e.received), u.size >= o && u.delete(o - 1);
 			} catch (a) {
-				if (!(a instanceof n) || a.status !== 404) throw a;
-				return this.removePendingUpload(c), this.chunkUpload(e, t, r, i);
+				if (!(a instanceof r) || a.status !== 404) throw a;
+				return this.removePendingUpload(c), this.chunkUpload(e, t, n, i);
 			}
 			for (let s = 0; s < o; s++) {
 				if (i.signal?.aborted) throw new DOMException("The upload was cancelled.", "AbortError");
@@ -238,7 +244,7 @@ var t = (e) => /^1(?:\.|$)/.test(e), n = class extends Error {
 					continue;
 				}
 				let d = new FormData();
-				d.set("resource", e), d.set("path", t), d.set("name", r.name), d.set("uploadId", c), d.set("index", String(s)), d.set("total", String(o)), i.overwrite && d.set("overwrite", "1"), i.autoRename && d.set("autoRename", "1"), d.set("chunk", r.slice(s * a, Math.min(r.size, (s + 1) * a)), `${r.name}.part`);
+				d.set("resource", e), d.set("path", t), d.set("name", n.name), d.set("uploadId", c), d.set("index", String(s)), d.set("total", String(o)), i.overwrite && d.set("overwrite", "1"), i.autoRename && d.set("autoRename", "1"), d.set("chunk", n.slice(s * a, Math.min(n.size, (s + 1) * a)), `${n.name}.part`);
 				let f = await fetch(this.base + "/uploads/chunks", {
 					method: "POST",
 					headers: {
@@ -248,16 +254,16 @@ var t = (e) => /^1(?:\.|$)/.test(e), n = class extends Error {
 					body: d,
 					credentials: "same-origin",
 					signal: i.signal
-				}), p = await f.json();
-				if (!f.ok || !p.success || !p.data) throw new n(p.error?.message || `Request failed (${f.status})`, p.error?.code || "upload_failed", f.status);
+				}), p = await this.jsonResponse(f, "upload_failed");
+				if (!f.ok || !p.success || !p.data) throw new r(p.error?.message || `Request failed (${f.status})`, p.error?.code || "upload_failed", f.status);
 				if (i.onProgress?.(Math.round((s + 1) / o * 100)), this.savePendingUpload({
 					...l,
 					updatedAt: Date.now()
 				}), p.data.complete && p.data.entry) return this.removePendingUpload(c), { entry: p.data.entry };
 			}
-			throw new n("The chunk upload did not complete.", "chunk_incomplete", 500);
+			throw new r("The chunk upload did not complete.", "chunk_incomplete", 500);
 		} catch (e) {
-			throw e instanceof n && e.status >= 400 && e.status < 500 && this.removePendingUpload(c), e;
+			throw e instanceof r && e.status >= 400 && e.status < 500 && this.removePendingUpload(c), e;
 		} finally {
 			i.signal?.removeEventListener("abort", u), i.signal?.aborted && this.removePendingUpload(c);
 		}
@@ -403,7 +409,7 @@ var t = (e) => /^1(?:\.|$)/.test(e), n = class extends Error {
 		});
 	}
 	async downloadArchive(e, t) {
-		let r = await fetch(this.base + "/archive", {
+		let n = await fetch(this.base + "/archive", {
 			method: "POST",
 			headers: {
 				Accept: "application/zip, application/json",
@@ -416,11 +422,11 @@ var t = (e) => /^1(?:\.|$)/.test(e), n = class extends Error {
 				paths: t
 			})
 		});
-		if (!r.ok) {
-			let e = await r.json();
-			throw new n(e.error?.message || `Request failed (${r.status})`, e.error?.code || "archive_failed", r.status);
+		if (!n.ok) {
+			let e = await this.jsonResponse(n, "archive_failed");
+			throw new r(e.error?.message || `Request failed (${n.status})`, e.error?.code || "archive_failed", n.status);
 		}
-		return r.blob();
+		return n.blob();
 	}
 	async metadata(e) {
 		let t = await this.request(`/metadata?${new URLSearchParams({ resource: e })}`), n = t.quickAccess || [];
@@ -459,16 +465,24 @@ var t = (e) => /^1(?:\.|$)/.test(e), n = class extends Error {
 		};
 	}
 	async request(e, t = {}) {
-		let r = new Headers(t.headers);
-		r.set("Accept", "application/json"), !(t.body instanceof FormData) && t.body !== void 0 && r.set("Content-Type", "application/json"), t.method && t.method !== "GET" && r.set("X-CSRF-TOKEN", this.config.csrfToken);
+		let n = new Headers(t.headers);
+		n.set("Accept", "application/json"), !(t.body instanceof FormData) && t.body !== void 0 && n.set("Content-Type", "application/json"), t.method && t.method !== "GET" && n.set("X-CSRF-TOKEN", this.config.csrfToken);
 		let i = await fetch(this.base + e, {
 			...t,
-			headers: r,
+			headers: n,
 			credentials: "same-origin"
-		}), a = await i.json();
-		if (!i.ok || !a.success || !a.data) throw new n(a.error?.message || `Request failed (${i.status})`, a.error?.code || "request_failed", i.status);
+		}), a = await this.jsonResponse(i, "request_failed");
+		if (!i.ok || !a.success || !a.data) throw new r(a.error?.message || `Request failed (${i.status})`, a.error?.code || "request_failed", i.status);
 		return a.data;
+	}
+	async jsonResponse(t, n) {
+		let i = await t.text();
+		try {
+			return JSON.parse(i);
+		} catch {
+			throw new r(e(t.status, i, t.headers.get("Content-Type") || ""), n, t.status);
+		}
 	}
 };
 //#endregion
-export { n, r as t };
+export { r as n, i as t };

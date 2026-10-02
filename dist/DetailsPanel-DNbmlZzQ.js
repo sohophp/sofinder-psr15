@@ -1,7 +1,7 @@
 import { t as e } from "./jsx-runtime-CmCsaYvT.js";
 import { t } from "./react-B5TC723I.js";
-import { n } from "./api-Cq-FmALq.js";
-import { t as r } from "./UiIcon-JdLj8VHV.js";
+import { n } from "./api-B66v6vYY.js";
+import { t as r } from "./UiIcon-CyBzESIM.js";
 import { n as i, t as a } from "./EntryVisuals-COz6M0oc.js";
 import { t as o } from "./format-GD3_dnvn.js";
 //#region src/components/AssetPropertiesPanel.tsx
@@ -248,7 +248,7 @@ function u({ api: e, resource: t, selectedEntries: n, selected: u, imageInfo: d,
 			/* @__PURE__ */ (0, c.jsx)("div", {
 				className: "sf-preview",
 				children: m ? /* @__PURE__ */ (0, c.jsx)(i, {
-					src: e.thumbnailUrl(t, u, 800, 600),
+					src: u.mimeType === "image/svg+xml" ? u.url || e.contentUrl(t, u.path) : e.thumbnailUrl(t, u, 800, 600),
 					alt: u.name
 				}) : /* @__PURE__ */ (0, c.jsx)(a, {
 					name: u.name,
