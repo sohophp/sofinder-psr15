@@ -87,13 +87,13 @@ var n = (e) => /^1(?:\.|$)/.test(e), r = class extends Error {
 			path: t,
 			disposition: r
 		});
-		return n !== void 0 && i.set("ttl", String(n)), this.request(`/signed-url?${i}`);
+		return n !== void 0 && i.set("ttl", String(n)), this.request(`/signed-url?${i}`, { method: "POST" });
 	}
 	shareLink(e, t) {
 		return this.request(`/share-link?${new URLSearchParams({
 			resource: e,
 			path: t
-		})}`);
+		})}`, { method: "POST" });
 	}
 	list(e, t, n = "", r = "name", i = "asc", a = 0, o = 100, s = "name", c = null) {
 		let l = new URLSearchParams({
@@ -279,6 +279,14 @@ var n = (e) => /^1(?:\.|$)/.test(e), r = class extends Error {
 			return [];
 		}
 	}
+	discardPendingUpload(e) {
+		this.pendingUploads().some((t) => t.id === e) && (this.removePendingUpload(e), fetch(`${this.base}/uploads/chunks/${encodeURIComponent(e)}`, {
+			method: "DELETE",
+			headers: { "X-CSRF-TOKEN": this.config.csrfToken },
+			credentials: "same-origin",
+			keepalive: !0
+		}).catch(() => {}));
+	}
 	findPendingUpload(e, t, n, r, i = !1, a) {
 		return this.pendingUploads().find((o) => o.resource === e && o.path === t && o.name === n.name && o.size === n.size && o.lastModified === n.lastModified && o.overwrite === r && o.autoRename === i && (a === void 0 || o.total === a));
 	}
@@ -287,7 +295,7 @@ var n = (e) => /^1(?:\.|$)/.test(e), r = class extends Error {
 		t.push(e), localStorage.setItem(this.uploadStorageKey, JSON.stringify(t.slice(-50)));
 	}
 	removePendingUpload(e) {
-		localStorage.setItem(this.uploadStorageKey, JSON.stringify(this.readAllPendingUploads().filter((t) => t.id !== e)));
+		localStorage.setItem(this.uploadStorageKey, JSON.stringify(this.readAllPendingUploads().filter((t) => t.id !== e || t.scope !== this.base)));
 	}
 	readAllPendingUploads() {
 		try {
